@@ -1,0 +1,15 @@
+{
+  "name": "Kommanda",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "private": true,
+  "dependencies": {
+    "express": "^5.1.0",
+    "lodash": "^4.17.21"
+  }
+}
