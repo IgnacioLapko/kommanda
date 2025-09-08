@@ -1,6 +1,6 @@
-const bodyParser = require("express")
-const express = require('express')
-const {Plato} = require("./domain/dominio");
+import bodyParser from "express"
+import express from "express"
+import {Plato} from "./domain/dominio.js";
 const app = express()
 const port = 3000
 
@@ -48,21 +48,23 @@ app.get('/platos', (req, res) => {
   //     "categoria": "PRINCIPAL"
   // },
   // {
-  //     "nombre": "Ravioles con bolognesa",
-  //     "precio": 10000,
+  //     "nombre": "Pizza",
+  //     "precio": 6500,
   //     "categoria": "PRINCIPAL"
   // }]
+  res.status(200).json(Menu.listar())
 })
 
 //Ver un plato
 app.get('/platos/:id', (req, res) => {
-  // Response
-  // 200
-  //{
-  //     "nombre": "Ravioles con bolognesa",
-  //     "precio": 10000,
-  //     "categoria": "PRINCIPAL"
-  // }
+  const idRecibido = parseInt(req.params.id, 10); // lo convierto a número
+  const plato = Menu.buscarPorId(idRecibido);
+
+  if (!plato) {
+    return res.status(404).json({ error: `No se encontró el plato con id ${idRecibido}` });
+  }
+
+  res.status(200).json(plato);
 })
 
 //Modificar un plato
@@ -81,6 +83,19 @@ app.put('/platos/:id', (req, res) => {
   //     "precio": 10000,
   //     "categoria": "PRINCIPAL"
   // } (Opcional)
+  const platoActualizar = new Plato({
+    nombre: req.body.nombre,
+    categoria: req.body.categoria,
+    precio: req.body.precio,
+  })
+  const idPlatoActualizar = parseInt(req.params.id, 10)
+  const platoAactualizar = Menu.buscarPorId(idPlatoActualizar)
+
+  platoAactualizar.nombre = platoActualizar.nombre
+  platoAactualizar.categoria = platoActualizar.categoria
+  platoAactualizar.precio = platoActualizar.precio
+
+  res.status(200).json(platoActualizar)
 })
 
 
@@ -91,9 +106,18 @@ app.patch('/platos/:id', (req, res) => {
   //     "estaDisponible": false
   // }
   // Response 200
+
+  const platoActualizar = new Plato({
+    estaDisponible: req.body.estaDisponible
+  })
+
+  const idPlatoActualizar = parseInt(req.params.id, 10)
+  const platoAactualizar = Menu.buscarPorId(idPlatoActualizar)
+
+  platoAactualizar.estaDisponible = platoActualizar.estaDisponible
+
+  res.status(200).json(platoAactualizar)
 })
-
-
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

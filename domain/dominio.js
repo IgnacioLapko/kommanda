@@ -1,6 +1,4 @@
-import {negate, remove} from "lodash-es";
-import {isEmpty, max, maxBy, values} from "lodash-es";
-import {sumBy} from "lodash-es";
+import { isEmpty, max, maxBy, values, sumBy, negate, remove } from "lodash-es";
 
 export class Plato {
   id;
